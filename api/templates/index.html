@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .exit-button {
+            background-color: #dc3545;
+            margin-top: 10px;
+        }
+        .exit-button:hover {
+            background-color: #a71d2a;
+        }
+        .chat-history {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .chat-entry {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .chat-entry strong {
+            color: #007bff;
+        }
+        .answer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            color: #2e7d32;
+            font-size: 16px;
+        }
+        .answer ul {
+            padding-left: 20px;
+        }
+        .answer ul li {
+            margin-bottom: 8px;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with AI</h1>
+        <form method="POST" action="/ask">
+            <input type="text" name="question" placeholder="Enter your question here" required>
+            <button type="submit">Get Answer</button>
+        </form>
+        <form method="POST" action="/exit">
+            <button type="submit" class="exit-button">Exit Conversation</button>
+        </form>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if question and answer %}
+            <div class="answer">
+                <strong>Answer:</strong>
+                {{ answer|safe }}
+            </div>
+        {% endif %}
+        <div class="chat-history">
+            <h2>Chat History</h2>
+            {% for entry in chat_history %}
+                <div class="chat-entry">
+                    <strong>Q:</strong> {{ entry.question }}<br>
+                    <strong>A:</strong> {{ entry.answer|safe }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
